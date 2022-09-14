@@ -18,8 +18,36 @@
           overflow: auto; /* Enable scroll if needed */
           background-color: rgb(0,0,0); /* Fallback color */
           background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
         }
 
+        @keyframes fadeIn {
+            0% {
+                opacity:0
+            }
+            100% {
+                opacity:1;
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity:1
+            }
+            100% {
+                opacity:0;
+            }
+        }
+
+        .modal.shown {
+            display: block;
+            animation:fadeIn 100ms linear;
+        }
+
+        .modal.hidden {
+            animation:fadeOut 100ms linear;
+        }
         /* Modal Content/Box */
         .modal-content {
           background-color: #fefefe;
@@ -28,7 +56,6 @@
           border: 1px solid #888;
           width: 80%; /* Could be more or less, depending on screen size */
           border-radius: 20px;
-          box-shadow: 0px 0px 50px rgba(255, 255, 255, 0.5);
         }
 
         /* The Close Button */
@@ -122,7 +149,7 @@
     <h1 class="gftitle">Click the button to get a gf right now</h1>
     <button class="gfbtn" onmouseover="hover()" onclick="console.log('bro clicked 💀');hover()">YES PLZZ!!!</button><br><br>
     <a style="color: gray;" onclick="edit()" class="editlink">✍️ click to customize page</a> <a class="editlink" href="https://www.tiktok.com/@pocoguy.exe">😄 @pocoguy.exe</a></span>
-    <div id="editmodal" class="modal">
+    <div id="editmodal" class="modal hidden">
 
         <!-- Modal content -->
         <div class="modal-content">
@@ -159,13 +186,17 @@
             const btn = document.querySelector(".gfbtn");
             const title = document.querySelector(".gftitle");
 
-            modal.style.display = "block";
+            modal.classList.remove("hidden");
+            modal.classList.add("shown");
             document.querySelector("#title").value = title.innerText;
             document.querySelector("#button").value = btn.innerText;
         }
 
         function closeModal() {
-            modal.style.display = "none";
+            modal.classList.add("hidden");
+            setTimeout(() => {
+                modal.classList.remove("shown");
+            }, 100);
         }
 
         window.onclick = function(event) {
